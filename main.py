@@ -245,8 +245,10 @@ while True:
             case 3:
                 limparTerminal()
                 menuRegras()
+            case 4:
+                print()
             case 0:
-                break;          
+               exit()  
             case _:
                 print("Valor fora do intervalo")
     except ValueError:
