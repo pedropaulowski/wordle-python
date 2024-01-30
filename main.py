@@ -37,9 +37,9 @@ def sortearPalavra():
     try:
         data_file = open("palavras-validadas.txt", "r")
         content = data_file.read().split('\n')
-        print(f'QUANTIDADE DE PALAVRAS: {len(content)}\n')
+        # print(f'QUANTIDADE DE PALAVRAS: {len(content)}\n')
         randomNumber = randint(0, len(content))
-        print(f'PALAVRA SORTEADA: {content[randomNumber]}')
+        # print(f'PALAVRA SORTEADA: {content[randomNumber]}')
         return content[randomNumber]
     
     except FileNotFoundError:
@@ -62,13 +62,28 @@ def mostrarTentativas(palavras, palavraSorteada):
         
         print() 
         
-        for letra in palavra:
-            if letra.upper() in palavraSorteada and palavra.index(letra) == palavraSorteada.index(letra):
+        i = 0
+        while i < len(palavraSorteada) and i < len(palavra):
+            if palavra[i] == palavraSorteada[i]:
                 print(f'{certo:^5}', end="")
-            elif letra in palavraSorteada and palavra.index(letra) != palavraSorteada.index(letra):
-                print(f'{meiocerto:^5}', end="")
-            else:
+            elif palavra[i] not in palavraSorteada:
                 print(f'{errado:^5}', end="")
+            else:
+                print(f'{meiocerto:^5}', end="")
+            i+=1
+            
+
+        
+        
+        # for letra in palavra:
+        #     if letra in palavraSorteada and letra == palavraSorteada[palavra.index(letra)]:
+        #         print(f'{certo:^5}', end="")
+        #     elif letra not in palavraSorteada:
+        #         print(f'{errado:^5}', end="")
+        #     else:
+        #         print(f'{meiocerto:^5}', end="")
+
+
         
         print("\n")
         
@@ -155,7 +170,10 @@ def novoJogo(jogo: Jogo = None):
                         new_file.write(format(data) + ",")
                         new_file.write(format(gameId) + ",")
                         new_file.write(palavraSorteada + ",")
-                        new_file.write(format(vidas) + ",")
+                        if palavrasTentadas[len(palavrasTentadas) - 1] == palavraSorteada:
+                            new_file.write("0" + ",")
+                        else:
+                            new_file.write(format(vidas) + ",")
                         
                         i = 0
                         for palavra in palavrasTentadas:
@@ -193,7 +211,7 @@ while True:
     print("1 - NOVO JOGO")
     print("2 - CONTINUAR JOGO SALVO")
     print("3 - REGRAS")
-    print("4 - CONFIGURAÇÕES\n")
+    # print("4 - CONFIGURAÇÕES\n")
     print("0 - SAIR")
 
     try:
@@ -245,8 +263,6 @@ while True:
             case 3:
                 limparTerminal()
                 menuRegras()
-            case 4:
-                print()
             case 0:
                exit()  
             case _:
